@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_18_220858) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_18_230856) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body", null: false
+    t.bigint "author_id", null: false
+    t.bigint "post_id", null: false
+    t.bigint "parent_comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_comments_on_author_id"
+    t.index ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
+    t.index ["post_id"], name: "index_comments_on_post_id"
+  end
 
   create_table "post_subs", force: :cascade do |t|
     t.bigint "post_id", null: false
@@ -50,6 +62,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_220858) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "comments", "comments", column: "parent_comment_id"
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "post_subs", "posts"
   add_foreign_key "post_subs", "subs"
   add_foreign_key "posts", "users", column: "author_id"
