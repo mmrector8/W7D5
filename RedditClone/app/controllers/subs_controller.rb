@@ -1,6 +1,7 @@
 class SubsController < ApplicationController
   # before_action :set_sub, only: %i[ show edit update destroy ]
   before_action :require_logged_in, only: [:edit, :create, :update, :new]
+  
   # GET /subs
   def index
     @subs = Sub.all

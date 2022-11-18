@@ -1,9 +1,24 @@
 <h1>New post</h1>
 
-<%= render "form", post: @post %>
+<form action="<%= posts_url %>" method = "POST">
+  <input type="hidden" name="authenticity_token" value ="<%= form_authenticity_token%>">
+  <label for = "title"> Title </label>
+  <input type="text" name ="post[title]" id="title"> <br>
+  <label for = "url"> url </label>
+  <input type="text" name ="post[url]" id="url"> <br>
+  <label for = "content"> content </label>
+  <input type="textarea" name ="post[content]" id="content"> <br>
+  <label for="subs">Subs</label> <br>
+  <input type="hidden" name="post[sub_ids][]" value="">
+    <% Sub.all.each do |sub| %>
+        <label> <%= sub.title %>
+          <input 
+            type="checkbox" 
+            value= "<%= sub.id %>" 
+            name = "post[sub_ids][]"
+          /><br>
+        </label>
+    <% end %>
+  <input type="submit" value="Create Post">
+</form>
 
-<br>
-
-<div>
-  <%= link_to "Back to posts", posts_path %>
-</div>

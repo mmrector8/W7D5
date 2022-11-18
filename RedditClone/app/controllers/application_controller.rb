@@ -26,5 +26,13 @@ class ApplicationController < ActionController::Base
     @current_user = nil 
     session[:session_token] = nil
   end
+
+  def require_author_match
+    redirect_to subs_url unless @post.author_id == current_user.id 
+  end
+
+  def require_moderator_match
+    redirect_to subs_url unless @sub.moderator_id == current_user.id 
+  end
 end
 

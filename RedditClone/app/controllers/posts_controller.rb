@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :require_author_match, only: [:edit, :update]
 
   # GET /posts/1
   def show
@@ -21,7 +22,7 @@ class PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(post_params)
-    @post.author_id = current_user.id
+    @post.author_id == current_user.id
 
     if @post.save
       redirect_to post_url(@post), notice: "Post was successfully created."
@@ -33,11 +34,14 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
+    @post = Post.find_by(id: params[:id])
     if @post.update(post_params)
-      redirect_to @post, notice: "Post was successfully updated."
+      redirect_to post_url(@post)
     else
-      render :edit, status: :unprocessable_entity
+      flash.now[:errors] = @post.errors.full_messages
+      render :edit
     end
+  
   end
 
   # DELETE /posts/1
