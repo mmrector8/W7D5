@@ -11,5 +11,17 @@
 
   <body>
     <%= yield %>
+    <% if flash[:errors] %>
+      <% flash[:errors].each do |error| %>
+        <%= error %>
+      <% end %>
+    <% end %>
+    <% if logged_in? %>
+      <form action="<%= session_url(current_user) %>" method="POST" >
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="hidden" name="authenticity_token" value ="<%= form_authenticity_token%>">
+      <button>Sign Out</button>
+      </form>
+    <% end %>
   </body>
 </html>
