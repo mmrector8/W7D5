@@ -68,4 +68,9 @@ class User < ApplicationRecord
     has_many :sub_posts, 
         through: :subs,
         source: :posts
+
+    has_many :comments,
+    foreign_key: :author_id,
+    class_name: :User,
+    dependent: :destroy
 end

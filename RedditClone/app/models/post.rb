@@ -18,10 +18,13 @@ class Post < ApplicationRecord
     class_name: :User,
     inverse_of: :posts
 
-    has_many :post_subs,
+  has_many :post_subs,
     dependent: :destroy
    
-    has_many :subs,
+  has_many :subs,
     through: :post_subs,
     source: :sub
+
+  has_many :comments,
+  dependent: :destroy
 end

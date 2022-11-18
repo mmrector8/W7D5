@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :posts
+  
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -8,5 +8,11 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create, :show, :index]
   resource :session, only: [:create, :destroy, :new]
   resources :subs, except: [:destroy]
+
+  resources :comments, only: [:create]
+
+  resources :posts do 
+    resources :comments, only: [:new, :destroy], shallow: true
+  end
 
 end
