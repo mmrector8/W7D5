@@ -1,10 +1,16 @@
-<h3>Sub <%= @sub.title %> </h3>
+<h1>Sub: <%= @sub.title %> </h1>
+<h4> Description: <%= @sub.description %></h4>
+
 
 <form action="<%=new_post_url%>" method = "GET">
   <input type="hidden" name="authenticity_token" value ="<%= form_authenticity_token%>">
   <button>Make A New Post</button>
 </form>
-
+<ul>
+    <% @sub.posts.each do |post|%>
+      <li><a href="<%= post_url(post)%>"><%= post.title %></a></li>
+    <% end %>
+</ul>
 <% if @sub.moderator_id == current_user.id %>
 <form action="<%= edit_sub_url(@sub)%>" method="GET">
   <input type="hidden" name="authenticity_token" value ="<%= form_authenticity_token%>">

@@ -10,18 +10,26 @@
   </head>
 
   <body>
+  <% if logged_in? %>
+      <ul>
+        <li><%= current_user.username %></li>
+        <li> <a href="<%=new_sub_url %>">Create A Sub!</a></li>
+        <li> <a href="<%= subs_url %>">All Subs</a></li>
+        <li>  
+          <form action="<%= session_url(current_user) %>" method="POST" >
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="hidden" name="authenticity_token" value ="<%= form_authenticity_token%>">
+          <button>Sign Out</button>
+          </form>
+        </li>
+      </ul>
+    <% end %>
     <%= yield %>
     <% if flash[:errors] %>
       <% flash[:errors].each do |error| %>
         <%= error %>
       <% end %>
     <% end %>
-    <% if logged_in? %>
-      <form action="<%= session_url(current_user) %>" method="POST" >
-      <input type="hidden" name="_method" value="DELETE">
-      <input type="hidden" name="authenticity_token" value ="<%= form_authenticity_token%>">
-      <button>Sign Out</button>
-      </form>
-    <% end %>
+
   </body>
 </html>

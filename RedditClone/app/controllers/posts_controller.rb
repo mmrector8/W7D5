@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :require_author_match, only: [:edit, :update]
+  # before_action :require_author_match, only: [:edit, :update]
 
   # GET /posts/1
   def show
@@ -21,15 +21,20 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
+    
     @post = Post.new(post_params)
-    @post.author_id == current_user.id
+    @post.author_id = current_user.id
 
     if @post.save
-      redirect_to post_url(@post), notice: "Post was successfully created."
+      params[:post][:sub_ids].each do |sub_id|
+        PostSub.create(post_id: @post.id, sub_id: sub_id)
+      end
+      redirect_to post_url(@post)
     else
       flash.now[:errors] = @post.errors.full_messages
       render :new
     end
+
   end
 
   # PATCH/PUT /posts/1
@@ -50,6 +55,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :url, :content, sub_ids:[])
+      params.require(:post).permit(:title, :url, :content, :sub_ids)
     end
 end

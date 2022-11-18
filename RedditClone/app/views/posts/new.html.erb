@@ -9,7 +9,6 @@
   <label for = "content"> content </label>
   <input type="textarea" name ="post[content]" id="content"> <br>
   <label for="subs">Subs</label> <br>
-  <input type="hidden" name="post[sub_ids][]" value="">
     <% Sub.all.each do |sub| %>
         <label> <%= sub.title %>
           <input 

@@ -17,7 +17,12 @@ class Sub < ApplicationRecord
         foreign_key: :moderator_id,
         class_name: :User,
         inverse_of: :subs
-    
-    has_many :posts,
+
+    has_many :post_subs,
         dependent: :destroy
+        
+    has_many :posts,
+        through: :post_subs,
+        source: :post
+
 end

@@ -65,4 +65,7 @@ class User < ApplicationRecord
         class_name: :Post,
         dependent: :destroy
 
+    has_many :sub_posts, 
+        through: :subs,
+        source: :posts
 end
