@@ -1,0 +1,8 @@
+<h3>Sub <%= @sub.title %> </h3>
+<% if current_user.id == @sub.moderator_id && logged_in? %>
+  <form action="<%= edit_sub_url(@sub)%>" method="GET">
+    <input type="hidden" name="authenticity_token" value ="<%= form_authenticity_token%>">
+    <button>Edit Sub</button>
+  </form>
+<% end %>
+

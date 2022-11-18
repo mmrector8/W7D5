@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_credentials(username, password)
     if @user && @user.is_password?(password)
       login(@user)
-      redirect_to users_url # change later
+      redirect_to subs_url # change later
     else
       flash[:errors] = ["Invalid username or password"]
       redirect_to new_session_url

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :bigint           not null, primary key
+#  username        :string           not null
+#  session_token   :string           not null
+#  password_digest :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 class User < ApplicationRecord
     before_validation :ensure_session_token
     attr_reader :password
@@ -44,5 +55,14 @@ class User < ApplicationRecord
         token
     end
 
+    has_many :subs,
+        foreign_key: :moderator_id,
+        class_name: :Sub,
+        dependent: :destroy
+
+    has_many :posts,
+        foreign_key: :author_id,
+        class_name: :Post,
+        dependent: :destroy
 
 end
